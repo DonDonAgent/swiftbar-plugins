@@ -69,11 +69,9 @@ DIR=$(defaults read com.ameba.SwiftBar PluginDirectory 2>/dev/null)
 SwiftBar recreates empty directories for plugins it remembers. Clean them:
 
 ```bash
-# Remove empty dirs (they have no executable content)
+# Remove empty dirs (SwiftBar recreates them as ghosts)
 PLUGIN_DIR=~/Library/Application\ Support/SwiftBar/Plugins
-find "$PLUGIN_DIR" -type d -name "*.py" -o -name "*.sh" | while read d; do
-  [ -z "$(ls -A "$d")" ] && rm -rf "$d"
-done
+find "$PLUGIN_DIR" -type d -empty -delete
 ```
 
 ### Step 5: Test the plugin manually
@@ -116,7 +114,9 @@ defaults write com.ameba.SwiftBar PluginDirectory "~/Library/Application Support
 
 ## How the plugin reads the key
 
-The plugin uses `sofia-keychain-get.sh` subprocess (NOT hardcoded, NOT shell env):
+The plugin uses `sofia-keychain-get.sh` subprocess (NOT hardcoded, NOT shell env).
+This script is machine-specific — it must exist at `~/.config/secrets/sofia-keychain-get.sh`
+with access to `~/Library/Keychains/sofia.keychain-db`.
 
 ```python
 def get_key():
