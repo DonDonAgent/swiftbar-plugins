@@ -6,6 +6,16 @@
 - DeepSeek API key was changed/revoked/renewed
 - After any API key rotation
 
+## Prerequisites
+
+This guide assumes:
+- `~/.config/secrets/sofia-keychain-get.sh` exists (reads from `~/Library/Keychains/sofia.keychain-db`)
+- `~/.config/secrets/sofia-keychain-pw.txt` contains the keychain password
+- `python3` available on PATH
+- `gh` CLI or web access to download plugin from GitHub
+
+If keychain files are missing, copy them from another machine or recreate.
+
 ## Root cause patterns
 
 | Symptom | Root cause |
@@ -82,15 +92,10 @@ python3 ~/Library/Application\ Support/SwiftBar/Plugins/deepseek_balance.30m.py
 
 Should output: `DS: $X.XX`
 
-For shell variant:
-```bash
-bash ~/Library/Application\ Support/SwiftBar/Plugins/ds.sh
-```
-
 ### Step 6: Clear caches and restart
 
 ```bash
-killall SwiftBar
+pkill -x SwiftBar
 sleep 1
 rm -rf ~/Library/Caches/com.ameba.SwiftBar
 rm -rf ~/Library/HTTPStorages/com.ameba.SwiftBar
@@ -100,7 +105,7 @@ open -a SwiftBar
 ### If still broken — hard reset
 
 ```bash
-killall SwiftBar
+pkill -x SwiftBar
 sleep 1
 rm -rf ~/Library/Caches/com.ameba.SwiftBar
 rm -rf ~/Library/HTTPStorages/com.ameba.SwiftBar
@@ -141,7 +146,7 @@ security add-generic-password -a "sofia" -s "deepseek-api-key" \
 python3 ~/Library/Application\ Support/SwiftBar/Plugins/deepseek_balance.30m.py
 
 # 3. Restart SwiftBar
-killall SwiftBar && sleep 1 && open -a SwiftBar
+pkill -x SwiftBar && sleep 1 && open -a SwiftBar
 ```
 
 No code changes needed — plugin reads from keychain.
