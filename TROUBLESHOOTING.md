@@ -88,6 +88,7 @@ SwiftBar recreates empty directories for plugins it remembers. Clean them:
 
 ```bash
 # Remove empty dirs (SwiftBar recreates them as ghosts)
+# Safe — only deletes empty directories, never files
 PLUGIN_DIR=~/Library/Application\ Support/SwiftBar/Plugins
 find "$PLUGIN_DIR" -type d -empty -delete
 ```
@@ -124,6 +125,14 @@ open -a SwiftBar
 # Or set via CLI:
 defaults write com.ameba.SwiftBar PluginDirectory "~/Library/Application Support/SwiftBar/Plugins"
 ```
+
+## If nothing works
+
+1. Check internet: `curl -sI https://api.deepseek.com/user/balance`
+2. Test key manually: `~/.../sofia-keychain-get.sh deepseek-api-key sofia` — should return `sk-...`
+3. Reboot the Mac — clears all SwiftBar memory caches
+4. Check for duplicate SwiftBar instances: `pkill -x SwiftBar && open -a SwiftBar`
+5. Ask Sofia (Claude) for help — she has this guide and can diagnose
 
 ## How the plugin reads the key
 
