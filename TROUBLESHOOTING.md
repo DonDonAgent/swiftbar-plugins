@@ -14,7 +14,15 @@ This guide assumes:
 - `python3` available on PATH
 - `gh` CLI or web access to download plugin from GitHub
 
-If keychain files are missing, copy them from another machine or recreate.
+If `sofia-keychain-get.sh` is missing, recreate it:
+```bash
+cat > ~/.config/secrets/sofia-keychain-get.sh << 'SH'
+#!/bin/bash
+security find-generic-password -s "$1" -w ~/Library/Keychains/sofia.keychain-db
+SH
+chmod +x ~/.config/secrets/sofia-keychain-get.sh
+```
+Keychain password file: `echo "YOUR_KEYCHAIN_PASSWORD" > ~/.config/secrets/sofia-keychain-pw.txt`
 
 ## Root cause patterns
 
