@@ -56,7 +56,7 @@ DIR=$(defaults read com.ameba.SwiftBar PluginDirectory 2>/dev/null)
 [ -n "$DIR" ] && grep -r "sk-" "$DIR"
 ```
 
-Any `sk-25ee7348...` (old leaked key) = replace with `sk-2cf127ace34045d2987eb019d7bbf47a`.
+Any `sk-25ee7348...` (old leaked key) = replace with the new key from keychain (`sofia-keychain-get.sh deepseek-api-key sofia`).
 
 ### Step 3: Replace the plugin
 
@@ -125,7 +125,7 @@ with access to `~/Library/Keychains/sofia.keychain-db`.
 
 ```python
 def get_key():
-    r = subprocess.run(["/Users/demo/.config/secrets/sofia-keychain-get.sh",
+    r = subprocess.run(["$HOME/.config/secrets/sofia-keychain-get.sh",
         "deepseek-api-key", "sofia"], capture_output=True, text=True, timeout=5)
     return r.stdout.strip()
 ```
